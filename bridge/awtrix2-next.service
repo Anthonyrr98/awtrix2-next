@@ -1,0 +1,23 @@
+[Unit]
+Description=AWTRIX2-Next compatibility API and control UI
+After=network-online.target awtrix2.service
+Wants=network-online.target
+Requires=awtrix2.service
+
+[Service]
+Type=simple
+User=awtrix
+Group=awtrix
+WorkingDirectory=/opt/awtrix-next
+Environment=PYTHONUNBUFFERED=1
+Environment=AWTRIX_HOST_URL=http://127.0.0.1:7000
+Environment=AWTRIX_HOST_ROOT=/opt/awtrix2
+Environment=AWTRIX_NEXT_DATA=/opt/awtrix-next/data
+ExecStart=/usr/bin/python3 /opt/awtrix-next/server.py --host 127.0.0.1 --port 7100
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

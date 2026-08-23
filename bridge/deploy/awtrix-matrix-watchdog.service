@@ -1,0 +1,7 @@
+[Unit]
+Description=AWTRIX matrix connection recovery watchdog
+After=network-online.target awtrix2.service awtrix2-next.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/awtrix-matrix-watchdog

@@ -1,0 +1,27 @@
+AppType=StandardJava
+Build1=Default,b4j.example
+Group=Default Group
+Library1=jcore
+Library2=json
+Library3=jrandomaccessfile
+Module1=GifPlayer
+Module2=AWTRIX
+NumberOfFiles=0
+NumberOfLibraries=3
+NumberOfModules=2
+Version=7.51
+@EndOfDesignText@
+
+#Region Project Attributes
+	#LibraryName: GifPlayer
+#End Region
+
+Sub Process_Globals
+End Sub
+
+Sub AppStart (Args() As String)
+End Sub
+
+Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	Return True
+End Sub

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10120f">
+  <title>AWTRIX2 NEXT · 控制台</title>
+  <link rel="stylesheet" href="styles.css?v=3.6">
+  <link rel="stylesheet" href="clean.css?v=3.6">
+</head>
+<body class="next-console">
+  <div class="noise" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="topbar reveal r1">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div>
+          <p class="eyebrow">MATRIX CONTROL CENTER</p>
+          <h1>AWTRIX2 <span>NEXT</span></h1>
+        </div>
+      </div>
+      <div class="bridge-route">
+        <small>设备连接</small>
+        <strong>云端控制台 <b>→</b> AWTRIX2 <b>→</b> 像素屏</strong>
+      </div>
+      <div id="connection-state" class="state connecting" role="status"><b></b><span>正在检查</span></div>
+    </header>
+
+    <section class="display-stage reveal r2" aria-labelledby="display-title">
+      <div class="display-meta">
+        <div><p class="section-index">LIVE MATRIX</p><h2 id="display-title">实时屏幕预览</h2></div>
+        <div class="matrix-spec"><span id="live-source">BRIDGE</span> / 32 × 8 RGB</div>
+      </div>
+      <div class="matrix-frame">
+        <div class="frame-screw s1"></div><div class="frame-screw s2"></div><div class="frame-screw s3"></div><div class="frame-screw s4"></div>
+        <canvas id="matrix-preview" width="640" height="160" aria-label="矩阵实时预览"></canvas>
+        <div class="glass-glare" aria-hidden="true"></div>
+      </div>
+      <div class="live-strip">
+        <span><i class="live-dot"></i> LIVEVIEW</span>
+        <strong id="preview-app">AWTRIX NEXT</strong>
+        <small id="preview-note">预览会随当前推送和滚动位置更新</small>
+      </div>
+    </section>
+
+    <nav class="mode-tabs reveal r2" aria-label="控制模式">
+      <button class="active" type="button" data-tab="notify">即时通知 <span>NOTIFY</span></button>
+      <button type="button" data-tab="custom">动态应用 <span>CUSTOM APP</span></button>
+      <button type="button" data-tab="automation">自动化 <span>AUTOMATION</span></button>
+      <button type="button" data-tab="apps">应用中心 <span>APP CENTER</span></button>
+      <button type="button" data-tab="gif">GIF 动画 <span>GIF</span></button>
+      <button type="button" data-tab="health">系统健康 <span>HEALTH</span></button>
+    </nav>
+
+    <section id="tab-notify" class="tab-page active reveal r3">
+      <article class="panel composer-panel">
+        <div class="panel-heading"><div><p class="section-index">02 / NOTIFICATION QUEUE</p><h2>发送到实体屏</h2></div><span class="panel-code">HTTP /API/NOTIFY</span></div>
+        <form id="notify-form" class="next-form">
+          <label class="wide-field">通知文字<input id="notify-text" maxlength="160" value="HELLO FROM AWTRIX NEXT" autocomplete="off"></label>
+          <label>文字颜色<input id="notify-color" type="color" value="#ffb000"></label>
+          <label>背景颜色<input id="notify-background" type="color" value="#050604"></label>
+          <label>显示时长<div class="unit-input"><input id="notify-duration" type="number" min="1" max="300" value="10"><span>秒</span></div></label>
+          <label>滚动次数<div class="unit-input"><input id="notify-repeat" type="number" min="1" max="20" value="1"><span>次</span></div></label>
+          <div class="option-row wide-field">
+            <label class="toggle"><input id="notify-center" type="checkbox" checked><span class="toggle-track"></span><em>短文字居中</em></label>
+            <label class="toggle"><input id="notify-stack" type="checkbox" checked><span class="toggle-track"></span><em>加入通知队列</em></label>
+          </div>
+          <details class="advanced-field wide-field">
+            <summary><span>高级显示参数</span><small>ICON / PROGRESS / MOTION</small></summary>
+            <div class="advanced-grid">
+              <label>图标 ID<input id="notify-icon" inputmode="numeric" placeholder="例如 5029"></label>
+              <label>图标滚动<select id="notify-push-icon"><option value="0">固定</option><option value="1">随文字移出</option><option value="2">循环时重现</option></select></label>
+              <label>滚动速度<div class="unit-input"><input id="notify-scroll-speed" type="number" min="10" max="500" value="100"><span>%</span></div></label>
+              <label>进度<input id="notify-progress" type="number" min="0" max="100" placeholder="不显示"></label>
+              <label>进度颜色<input id="notify-progress-color" type="color" value="#00d084"></label>
+              <label>进度槽颜色<input id="notify-progress-background" type="color" value="#20251e"></label>
+            </div>
+          </details>
+          <button id="send-notify" class="primary-action wide-field" type="submit"><span>发送并点亮屏幕</span><b>→</b></button>
+        </form>
+      </article>
+      <article class="panel queue-panel">
+        <div class="panel-heading"><div><p class="section-index">03 / DELIVERY LOG</p><h2>最近发送</h2></div><button id="refresh-history" class="icon-action" type="button">↻</button></div>
+        <div id="notification-history" class="history-list"><p class="empty-state">尚无发送记录</p></div>
+      </article>
+    </section>
+
+    <section id="tab-custom" class="tab-page reveal r3" hidden>
+      <article class="panel composer-panel custom-lab">
+        <div class="panel-heading"><div><p class="section-index">04 / DYNAMIC APP LAB</p><h2>AWTRIX3 风格页面</h2></div><span class="panel-code">HTTP /API/CUSTOM</span></div>
+        <form id="custom-form" class="next-form">
+          <label>应用名<input id="custom-name" maxlength="32" value="my_status" autocomplete="off"></label>
+          <label class="grow-two">显示文字<input id="custom-text" maxlength="160" value="STATUS OK" autocomplete="off"></label>
+          <label>图标 ID<input id="custom-icon" inputmode="numeric" placeholder="可选"></label>
+          <label>文字颜色<input id="custom-color" type="color" value="#67d5d1"></label>
+          <label>背景颜色<input id="custom-background" type="color" value="#050604"></label>
+          <label>进度<div class="unit-input"><input id="custom-progress" type="number" min="0" max="100" value="72"><span>%</span></div></label>
+          <label>滚动速度<div class="unit-input"><input id="custom-scroll-speed" type="number" min="10" max="500" value="100"><span>%</span></div></label>
+          <label>进度颜色<input id="custom-progress-color" type="color" value="#ffb000"></label>
+          <label>进度槽颜色<input id="custom-progress-background" type="color" value="#20251e"></label>
+          <label>图标滚动<select id="custom-push-icon"><option value="0">固定</option><option value="1">随文字移出</option><option value="2">循环时重现</option></select></label>
+          <div class="option-row compact-options">
+            <label class="toggle"><input id="custom-rainbow" type="checkbox"><span class="toggle-track"></span><em>彩虹</em></label>
+            <label class="toggle"><input id="custom-no-scroll" type="checkbox"><span class="toggle-track"></span><em>禁用滚动</em></label>
+          </div>
+          <label class="wide-field">原始 JSON <small>可直接粘贴 AWTRIX3 custom app payload</small><textarea id="custom-json" rows="8" spellcheck="false">{
+  "text": "STATUS OK",
+  "color": "#67d5d1",
+  "background": "#050604",
+  "center": true,
+  "progress": 72,
+  "progressC": "#ffb000",
+  "progressBC": "#20251e",
+  "scrollSpeed": 100
+}</textarea></label>
+          <div class="dual-actions wide-field">
+            <button id="format-json" class="outline-action" type="button">格式化 JSON</button>
+            <button class="primary-action" type="submit"><span>保存并立即显示</span><b>→</b></button>
+          </div>
+        </form>
+      </article>
+      <article class="panel apps-panel">
+        <div class="panel-heading"><div><p class="section-index">05 / APP REGISTRY</p><h2>页面列表</h2></div><span id="custom-count" class="panel-code">0 APPS</span></div>
+        <div id="custom-apps" class="app-registry"><p class="empty-state">还没有动态页面</p></div>
+      </article>
+    </section>
+
+    <section id="tab-automation" class="tab-page automation-page reveal r3" hidden>
+      <article class="panel composer-panel automation-builder">
+        <div class="panel-heading"><div><p class="section-index">06 / DATA AUTOMATION</p><h2>数据任务编排</h2></div><span class="panel-code">SCHEDULER / JSON</span></div>
+        <div class="preset-rail" aria-label="任务模板">
+          <button type="button" data-preset="bilibili"><b>B</b><span>Bilibili 粉丝</span></button>
+          <button type="button" data-preset="weather"><b>W</b><span>天气温度</span></button>
+          <button type="button" data-preset="douyin"><b>D</b><span>抖音粉丝</span></button>
+        </div>
+        <form id="automation-form" class="next-form">
+          <input id="automation-id" type="hidden">
+          <label>任务名称<input id="automation-name" maxlength="48" value="我的数据任务" required></label>
+          <label>输出方式<select id="automation-mode"><option value="notification">定时通知</option><option value="custom">动态应用</option><option value="log">只抓取并记录</option></select></label>
+          <label>执行周期<div class="unit-input"><input id="automation-interval" type="number" min="30" max="86400" value="300"><span>秒</span></div></label>
+          <label>显示时长<div class="unit-input"><input id="automation-duration" type="number" min="1" max="300" value="10"><span>秒</span></div></label>
+          <label class="wide-field">公网 JSON 地址 <small>仅允许 HTTPS；禁止本机和内网地址</small><input id="automation-url" type="url" placeholder="https://api.example.com/data.json" required></label>
+          <label class="grow-two">JSON 数据路径 <small>例如 data.items[0].count</small><input id="automation-path" placeholder="data.value"></label>
+          <label class="grow-two">显示模板 <small>{value} 为提取结果，{name} 为任务名</small><input id="automation-template" value="{name} {value}" maxlength="160"></label>
+          <label>应用名<input id="automation-app-name" value="auto_data" maxlength="32"></label>
+          <label>图标 ID<input id="automation-icon" placeholder="可选"></label>
+          <label>文字颜色<input id="automation-color" type="color" value="#67d5d1"></label>
+          <label>背景颜色<input id="automation-background" type="color" value="#050604"></label>
+          <label>生命周期<div class="unit-input"><input id="automation-lifetime" type="number" min="0" max="604800" value="0"><span>秒</span></div></label>
+          <label>过期处理<select id="automation-lifetime-mode"><option value="0">移除页面</option><option value="1">红框标记</option></select></label>
+          <div class="option-row wide-field automation-options">
+            <label class="toggle"><input id="automation-enabled" type="checkbox" checked><span class="toggle-track"></span><em>启用定时运行</em></label>
+            <label class="toggle"><input id="automation-show" type="checkbox"><span class="toggle-track"></span><em>更新后立即显示</em></label>
+            <label class="toggle"><input id="automation-rainbow" type="checkbox"><span class="toggle-track"></span><em>彩虹文字</em></label>
+          </div>
+          <div class="dual-actions wide-field">
+            <button id="automation-reset" class="outline-action" type="button">新建任务</button>
+            <button id="automation-save" class="primary-action" type="submit"><span>保存自动化</span><b>→</b></button>
+          </div>
+        </form>
+      </article>
+      <article class="panel automation-monitor">
+        <div class="panel-heading"><div><p class="section-index">07 / JOB MONITOR</p><h2>任务与运行日志</h2></div><button id="refresh-automations" class="icon-action" type="button">↻</button></div>
+        <div class="automation-summary"><div><strong id="automation-total">0</strong><small>任务</small></div><div><strong id="automation-healthy">0</strong><small>正常</small></div><div><strong id="automation-attention">0</strong><small>需注意</small></div></div>
+        <div id="automation-list" class="automation-list"><p class="empty-state">还没有自动化任务</p></div>
+        <div class="log-heading"><span>RECENT EXECUTION LOG</span><i></i></div>
+        <div id="automation-logs" class="automation-logs"><p class="empty-state">暂无运行记录</p></div>
+      </article>
+    </section>
+
+    <section id="tab-apps" class="tab-page app-center-page reveal r3" hidden>
+      <article class="panel app-center-panel">
+        <div class="app-center-head">
+          <div><p class="section-index">08 / DEVICE APP CENTER</p><h2>设备应用</h2><p class="app-center-intro">拖动已启用应用调整 LED 轮播顺序；点击卡片进入独立设置。</p></div>
+          <div class="app-center-stats"><strong id="device-app-enabled">—</strong><small>已启用</small><i></i><strong id="device-app-total">—</strong><small>已安装</small></div>
+        </div>
+        <div class="app-center-toolbar">
+          <div class="app-center-search"><span aria-hidden="true">⌕</span><input id="device-app-search" type="search" placeholder="搜索应用名称或功能…" autocomplete="off"><button id="clear-device-app-search" type="button" aria-label="清除搜索">×</button></div>
+          <div id="device-app-filters" class="app-filter-group" aria-label="应用筛选">
+            <button class="active" type="button" data-app-filter="all">全部</button>
+            <button type="button" data-app-filter="enabled">已启用</button>
+            <button type="button" data-app-filter="disabled">未启用</button>
+          </div>
+          <button id="refresh-device-apps" class="app-refresh" type="button"><span>↻</span> 刷新</button>
+        </div>
+        <div class="app-order-guide"><span aria-hidden="true">↕</span><p><strong>LED 显示顺序</strong><small>抓住卡片右上角手柄拖动，松手后自动保存；未启用应用固定在末尾。</small></p><b id="app-order-save-state">自动保存</b></div>
+        <div id="device-app-grid" class="device-app-grid" aria-live="polite"><p class="empty-state">正在读取已安装应用…</p></div>
+      </article>
+    </section>
+
+    <section id="tab-gif" class="tab-page gif-page reveal r3" hidden>
+      <article class="panel gif-panel">
+        <div class="panel-heading"><div><p class="section-index">06 / GIF PLAYER</p><h2>GIF 像素动画</h2><p class="app-center-intro">上传 GIF，自动解码为 32×8 RGB565 帧，由 GifPlayer 应用在实体屏上循环播放。</p></div><span class="panel-code">HTTP /API/GIF</span></div>
+        <form id="gif-upload-form" class="next-form">
+          <div class="gif-drop-zone" id="gif-drop-zone">
+            <input type="file" id="gif-file" accept="image/gif" hidden>
+            <div class="gif-drop-content"><strong>拖拽 GIF 到此处</strong><small>或点击选择文件 · 最大 5 MB · 自动缩放为 32×8</small></div>
+          </div>
+          <div class="gif-form-row">
+            <label class="wide-field">名称<input id="gif-name" maxlength="40" placeholder="例如 cat_spin" autocomplete="off"></label>
+            <label>循环次数<div class="unit-input"><input id="gif-loop" type="number" min="0" max="999" value="0"><span>0=无限</span></div></label>
+            <label>缩放模式<select id="gif-resize"><option value="contain">完整显示</option><option value="cover">裁剪填满</option></select></label>
+          </div>
+          <button id="gif-upload-btn" class="primary-action wide-field" type="submit"><span>解码并保存</span><b>→</b></button>
+        </form>
+        <div class="gif-list-head"><h3>已保存的 GIF</h3><div class="gif-list-actions"><button id="play-all-gifs" type="button">▶ 循环播放全部</button><button id="stop-gifs" type="button">■ 停止</button><button id="refresh-gifs" type="button">↻ 刷新</button></div></div>
+        <div id="gif-list" class="gif-grid"><p class="empty-state">还没有保存的 GIF，上传一个试试</p></div>
+      </article>
+    </section>
+
+    <section id="tab-health" class="tab-page health-page reveal r3" hidden>
+      <article class="panel health-panel">
+        <div class="health-head">
+          <div><p class="section-index">10 / SYSTEM HEALTH</p><h2>运行健康中心</h2><p class="app-center-intro">监测云端 Host、桥接服务、实体屏链路和服务器资源；每 15 秒自动刷新。</p></div>
+          <div class="health-head-actions"><span id="health-checked">等待检测</span><button id="refresh-health" class="app-refresh" type="button"><span>↻</span> 立即检测</button></div>
+        </div>
+        <div id="health-banner" class="health-banner checking"><i></i><div><strong>正在建立健康基线</strong><small>CHECKING SERVICE CHAIN</small></div><b>···</b></div>
+        <div class="health-chain" aria-label="服务连接链路">
+          <div id="health-bridge" class="health-node"><span>NX</span><div><strong>Next Bridge</strong><small id="health-bridge-meta">等待数据</small></div><i></i></div>
+          <b>→</b>
+          <div id="health-host" class="health-node"><span>H2</span><div><strong>AWTRIX Host</strong><small id="health-host-meta">等待数据</small></div><i></i></div>
+          <b>→</b>
+          <div id="health-matrix" class="health-node"><span>32</span><div><strong>Matrix Display</strong><small id="health-matrix-meta">等待数据</small></div><i></i></div>
+        </div>
+        <div class="health-metrics">
+          <div class="health-metric"><div><span>MEMORY</span><b id="health-memory-value">—</b></div><div class="metric-track"><i id="health-memory-bar"></i></div><small id="health-memory-meta">—</small></div>
+          <div class="health-metric"><div><span>DISK</span><b id="health-disk-value">—</b></div><div class="metric-track"><i id="health-disk-bar"></i></div><small id="health-disk-meta">—</small></div>
+          <div class="health-metric load-metric"><div><span>LOAD AVERAGE</span><b id="health-load-value">—</b></div><div class="load-bars" id="health-load-bars"><i></i><i></i><i></i></div><small>1 / 5 / 15 分钟</small></div>
+          <div class="health-metric"><div><span>BRIDGE RSS</span><b id="health-rss-value">—</b></div><div class="metric-track rss"><i id="health-rss-bar"></i></div><small id="health-uptime-meta">—</small></div>
+        </div>
+        <div class="health-bottom">
+          <div class="port-monitor"><div class="health-section-title"><span>PORT MONITOR</span><i></i></div><div class="port-grid"><div data-health-port="7000"><span>7000</span><strong>Host HTTP</strong><b>—</b></div><div data-health-port="7001"><span>7001</span><strong>Matrix MQTT</strong><b>—</b></div><div data-health-port="7100"><span>7100</span><strong>Next API</strong><b>—</b></div></div></div>
+          <div class="recovery-card"><div class="health-section-title"><span>RECOVERY POLICY</span><i></i></div><strong id="health-recovery-policy">正在读取恢复策略</strong><p>发生内存溢出时主动退出，由 systemd 自动拉起，避免“进程存在但服务失联”。</p><div><span>HEAP LIMIT</span><b id="health-heap">—</b></div></div>
+          <div class="diagnostic-card"><div class="health-section-title"><span>LAST DIAGNOSTIC</span><i></i></div><p id="health-last-error">暂无异常记录</p><small id="health-last-ok">HOST LAST OK —</small></div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="reveal r4"><p>AWTRIX2 NEXT / BUILD 03.6</p><p>拖动排序，即时同步</p></footer>
+  </main>
+  <div id="app-settings-backdrop" class="app-settings-backdrop" hidden></div>
+  <aside id="app-settings-drawer" class="app-settings-drawer" aria-hidden="true" aria-labelledby="app-settings-title">
+    <header class="settings-drawer-head">
+      <div class="drawer-app-identity"><div id="drawer-app-icon" class="drawer-app-icon"><span>APP</span></div><div><p>APP SETTINGS</p><h2 id="app-settings-title">应用设置</h2><small id="app-settings-subtitle">选择一个应用</small></div></div>
+      <button id="close-app-settings" type="button" aria-label="关闭设置">×</button>
+    </header>
+    <div class="settings-drawer-actions">
+      <button id="drawer-show-app" class="drawer-primary" type="button"><span>▶</span> 立即显示</button>
+      <label class="drawer-toggle"><input id="drawer-app-enabled" type="checkbox"><span></span><em>启用应用</em></label>
+    </div>
+    <form id="app-settings-form" class="app-settings-form">
+      <div id="app-settings-fields" class="app-settings-fields"><p class="empty-state">正在读取设置…</p></div>
+      <div class="settings-save-bar"><small id="app-settings-note">修改只会影响当前应用</small><button id="save-app-settings" class="primary-action" type="submit"><span>保存并应用</span><b>→</b></button></div>
+    </form>
+  </aside>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <script src="app.js?v=3.6"></script>
+</body>
+</html>

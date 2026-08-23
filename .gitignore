@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+.pio/
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+.env
+data/
+downloads/
+backups/
+tools/
+
