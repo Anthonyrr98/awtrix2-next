@@ -18,6 +18,20 @@ An unofficial, non-commercial AWTRIX2 extension focused on reliable remote opera
 
 ## Quick start
 
+### Recommended: Docker Compose
+
+Copy your complete, legally obtained AWTRIX2 Host runtime into `runtime/`, then run:
+
+```bash
+cp .env.example .env
+chmod +x install.sh update.sh
+./install.sh
+```
+
+The control panel is available at `http://SERVER_IP:7100/`. See the [Chinese Docker deployment guide](docs/DOCKER_ZH-CN.md) for ports, cloud security groups, updates, and backups.
+
+The upstream Host binary is deliberately not redistributed. This keeps private configuration out of Git and avoids republishing a binary whose distribution terms have not been verified.
+
 ### Controller firmware
 
 The prebuilt NodeMCU/ESP8266 image is:
@@ -59,4 +73,3 @@ Do not commit device flash backups, `.env` files, application state, API keys, o
 AWTRIX was created by Blueforcer, with AWTRIX2 controller work credited in the upstream source to Blueforcer and Mazze2000. This repository is an unofficial modified continuation and is not affiliated with or endorsed by the original authors.
 
 The AWTRIX2-derived work is provided under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license. See `LICENSE` and component license files. Bundled third-party libraries retain their own license notices.
-

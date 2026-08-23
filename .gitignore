@@ -10,4 +10,7 @@ data/
 downloads/
 backups/
 tools/
+runtime/*
+!runtime/README.md
+!runtime/.gitkeep
 

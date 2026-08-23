@@ -1,0 +1,49 @@
+name: awtrix2-next
+
+services:
+  host:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.host
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      JAVA_OPTS: -Xms64m -Xmx768m -XX:+ExitOnOutOfMemoryError
+    volumes:
+      - ./runtime:/opt/awtrix2
+    ports:
+      - "${AWTRIX_HOST_HTTP_BIND:-127.0.0.1}:7000:7000"
+      - "${AWTRIX_MATRIX_BIND:-0.0.0.0}:7001:7001"
+    security_opt:
+      - no-new-privileges:true
+
+  bridge:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.bridge
+    restart: unless-stopped
+    depends_on:
+      - host
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      PYTHONUNBUFFERED: "1"
+      AWTRIX_HOST_URL: http://host:7000
+      AWTRIX_HOST_ROOT: /opt/awtrix2
+      AWTRIX_NEXT_DATA: /var/lib/awtrix-next
+      AWTRIX_GIF_MAX_PLAY_SECONDS: ${GIF_MAX_SECONDS:-120}
+    volumes:
+      - ./runtime:/opt/awtrix2
+      - bridge-data:/var/lib/awtrix-next
+    ports:
+      - "${AWTRIX_NEXT_BIND:-0.0.0.0}:${AWTRIX_NEXT_PORT:-7100}:7100"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:7100/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 8s
+      retries: 3
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  bridge-data:

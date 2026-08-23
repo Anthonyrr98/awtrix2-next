@@ -1,0 +1,14 @@
+FROM eclipse-temurin:17-jre-jammy
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates tar \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY bridge/gifplayer-plugin-1.4-hard-timeout.tar.gz /opt/awtrix2-next/GifPlayer.tar.gz
+COPY docker/host-entrypoint.sh /usr/local/bin/awtrix-host-entrypoint
+RUN chmod 0755 /usr/local/bin/awtrix-host-entrypoint
+
+WORKDIR /opt/awtrix2
+EXPOSE 7000 7001
+ENTRYPOINT ["/usr/local/bin/awtrix-host-entrypoint"]
+

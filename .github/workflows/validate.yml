@@ -1,0 +1,23 @@
+name: Validate distribution
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Python
+        run: python3 -m py_compile bridge/server.py
+      - name: Validate shell scripts
+        run: sh -n install.sh update.sh docker/host-entrypoint.sh
+      - name: Validate Compose
+        run: docker compose config --quiet
+      - name: Build container images
+        run: docker compose build
+
