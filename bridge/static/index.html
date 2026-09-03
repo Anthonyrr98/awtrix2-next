@@ -172,13 +172,12 @@
     <section id="tab-apps" class="tab-page app-center-page reveal r3" hidden>
       <article class="panel app-center-panel">
         <div class="app-center-switcher" aria-label="应用中心视图">
-          <button class="active" type="button" data-app-center-view="device">Next 应用管理 <span>轮播与排序</span></button>
-          <button type="button" data-app-center-view="installed" data-app-center-src="/pages/myApps.html?embedded=1">已安装应用 <span>MY APPS</span></button>
-          <button type="button" data-app-center-view="store" data-app-center-src="/pages/appstore.html?embedded=1">应用商店 <span>APPSTORE</span></button>
+          <button class="active" type="button" data-app-center-view="device">已安装应用 <span>管理、排序与设置</span></button>
+          <button type="button" data-app-center-view="store" data-app-center-src="/pages/appstore.html?embedded=1">应用商店 <span>发现与安装应用</span></button>
         </div>
         <div id="app-center-device-view">
         <div class="app-center-head">
-          <div><p class="section-index">08 / DEVICE APP CENTER</p><h2>设备应用</h2><p class="app-center-intro">拖动已启用应用调整 LED 轮播顺序；点击卡片进入独立设置。</p></div>
+          <div><p class="section-index">08 / INSTALLED APPS</p><h2>已安装应用</h2><p class="app-center-intro">统一管理应用启停、设置和 LED 轮播顺序。</p></div>
           <div class="app-center-stats"><strong id="device-app-enabled">—</strong><small>已启用</small><i></i><strong id="device-app-total">—</strong><small>已安装</small></div>
         </div>
         <div class="app-center-toolbar">
@@ -194,7 +193,7 @@
         <div id="device-app-grid" class="device-app-grid" aria-live="polite"><p class="empty-state">正在读取已安装应用…</p></div>
         </div>
         <div id="app-center-host-view" class="app-center-host-view" hidden>
-          <div class="host-tool-viewbar"><i></i><strong id="app-center-host-title">MY APPS</strong><small>原版应用功能 · Next 集成模式</small><button id="app-center-host-reload" type="button">↻ 刷新</button></div>
+          <div class="host-tool-viewbar"><i></i><strong id="app-center-host-title">APPSTORE</strong><small>应用中心 · 商店模式</small><button id="app-center-host-reload" type="button">↻ 刷新</button></div>
           <iframe id="app-center-host-frame" title="AWTRIX 应用中心" loading="lazy"></iframe>
         </div>
       </article>

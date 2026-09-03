@@ -1015,7 +1015,7 @@ $$('[data-app-center-view]').forEach(button => button.addEventListener("click", 
   const frame = $("#app-center-host-frame");
   const nextSrc = button.dataset.appCenterSrc;
   if (frame.getAttribute("src") !== nextSrc) frame.src = nextSrc;
-  $("#app-center-host-title").textContent = button.dataset.appCenterView === "store" ? "APPSTORE" : "MY APPS";
+  $("#app-center-host-title").textContent = "APPSTORE";
 }));
 
 $("#app-center-host-reload").addEventListener("click", () => {
