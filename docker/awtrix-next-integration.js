@@ -69,7 +69,21 @@
     });
   }
 
+  function removeLegacyNavigation() {
+    var list = document.querySelector("#leftsidebar .menu ul.list");
+    if (!list) return;
+    var removedLabels = ["About", "Policies", "Support AWTRIX", "Links"];
+    Array.prototype.slice.call(list.children).forEach(function (item) {
+      if (!item || item.tagName !== "LI") return;
+      var link = item.querySelector("a");
+      if (!link) return;
+      var label = (link.textContent || "").replace(/\s+/g, " ").trim();
+      if (removedLabels.indexOf(label) !== -1) item.remove();
+    });
+  }
+
   function boot() {
+    removeLegacyNavigation();
     installNavigation();
     if (location.pathname === "/pages/next.html") openNext(false);
   }
