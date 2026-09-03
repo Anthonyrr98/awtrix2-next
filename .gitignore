@@ -13,4 +13,6 @@ tools/
 runtime/*
 !runtime/README.md
 !runtime/.gitkeep
-
+.bundle-runtime/
+dist-private/
+awtrix2-next-private-bundle.tar.gz

@@ -28,7 +28,7 @@ chmod +x install.sh update.sh
 ./install.sh
 ```
 
-The control panel is available at `http://SERVER_IP:7100/`. See the [Chinese Docker deployment guide](docs/DOCKER_ZH-CN.md) for ports, cloud security groups, updates, and backups.
+Port 7000 is the unified entrance: the original Host remains at `http://SERVER_IP:7000/`, while AWTRIX2 Next is integrated at `http://SERVER_IP:7000/awtrix-next/`. See the [Chinese Docker deployment guide](docs/DOCKER_ZH-CN.md) for ports, cloud security groups, private image packaging, updates, and backups.
 
 The upstream Host binary is deliberately not redistributed. This keeps private configuration out of Git and avoids republishing a binary whose distribution terms have not been verified.
 

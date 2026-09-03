@@ -15,9 +15,8 @@ jobs:
       - name: Validate Python
         run: python3 -m py_compile bridge/server.py
       - name: Validate shell scripts
-        run: sh -n install.sh update.sh docker/host-entrypoint.sh
+        run: sh -n install.sh update.sh package-private.sh deploy-private.sh docker/host-entrypoint.sh
       - name: Validate Compose
         run: docker compose config --quiet
       - name: Build container images
         run: docker compose build
-

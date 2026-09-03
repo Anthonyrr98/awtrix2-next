@@ -1,7 +1,22 @@
 name: awtrix2-next
 
 services:
+  gateway:
+    image: awtrix2-next-gateway:local
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gateway
+    restart: unless-stopped
+    depends_on:
+      - host
+      - bridge
+    ports:
+      - "${AWTRIX_UNIFIED_BIND:-0.0.0.0}:${AWTRIX_UNIFIED_PORT:-7000}:7000"
+    security_opt:
+      - no-new-privileges:true
+
   host:
+    image: awtrix2-next-host:local
     build:
       context: .
       dockerfile: docker/Dockerfile.host
@@ -12,12 +27,12 @@ services:
     volumes:
       - ./runtime:/opt/awtrix2
     ports:
-      - "${AWTRIX_HOST_HTTP_BIND:-127.0.0.1}:7000:7000"
       - "${AWTRIX_MATRIX_BIND:-0.0.0.0}:7001:7001"
     security_opt:
       - no-new-privileges:true
 
   bridge:
+    image: awtrix2-next-bridge:local
     build:
       context: .
       dockerfile: docker/Dockerfile.bridge

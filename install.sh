@@ -26,5 +26,6 @@ fi
 
 docker compose up -d --build
 docker compose ps
-echo "AWTRIX2 Next is starting. Open http://SERVER_IP:7100/"
-
+echo "AWTRIX2 Next is starting."
+echo "Host: http://SERVER_IP:7000/"
+echo "AWTRIX2 Next: http://SERVER_IP:7000/awtrix-next/"

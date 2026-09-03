@@ -16,13 +16,18 @@ chmod +x install.sh update.sh
 ./install.sh
 ```
 
-打开 `http://服务器IP:7100/`。实体屏幕的 Host 地址填写这台服务器的局域网地址或公网地址。
+统一入口使用 `7000` 端口：
+
+- 原版 Host：`http://服务器IP:7000/`
+- AWTRIX2 Next：`http://服务器IP:7000/awtrix-next/`
+
+实体屏幕的 Host 地址填写这台服务器的局域网地址或公网地址。
 
 ## 端口
 
-- `7000/TCP`：Host HTTP API，默认只绑定 `127.0.0.1`，不要直接暴露到公网。
+- `7000/TCP`：统一 Web 入口，同时代理原版 Host 和 AWTRIX2 Next。
 - `7001/TCP`：实体屏幕连接端口。
-- `7100/TCP`：AWTRIX2 Next 控制面板。
+- `7100/TCP`：AWTRIX2 Next 内部后端，默认只绑定 `127.0.0.1`。
 
 云服务器需要在安全组放行 `7001/TCP` 和实际对外使用的 Web 端口。推荐用 HTTPS 反向代理保护控制面板，不要将无认证的管理接口直接暴露给所有来源。
 
@@ -45,3 +50,20 @@ tar -czf awtrix2-next-backup.tar.gz runtime .env
 
 `runtime/config` 以及 Bridge 的 Docker 数据卷保存运行数据。设备完整闪存备份可能包含 Wi-Fi 密码，应始终私下保存，不要提交到 GitHub。
 
+## 打包私人离线镜像
+
+当 `runtime/` 已放入你的 Host 文件后执行：
+
+```bash
+chmod +x package-private.sh deploy-private.sh
+./package-private.sh
+```
+
+会生成 `awtrix2-next-private-bundle.tar.gz`。它包含三个 Docker 镜像和离线部署文件，但会排除 `config/`、日志、备份和应用配置。由于包内含你的 Host JAR，只用于自己的备份，不要发布到 GitHub。
+
+在新服务器解压后运行：
+
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
