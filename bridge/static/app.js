@@ -1003,6 +1003,26 @@ $$('[data-host-src]').forEach(button => button.addEventListener("click", () => {
   $("#host-tool-title").textContent = button.firstChild.textContent.trim().toUpperCase();
 }));
 
+$$('[data-app-center-view]').forEach(button => button.addEventListener("click", () => {
+  $$('[data-app-center-view]').forEach(node => node.classList.toggle("active", node === button));
+  const isDevice = button.dataset.appCenterView === "device";
+  $("#app-center-device-view").hidden = !isDevice;
+  $("#app-center-host-view").hidden = isDevice;
+  if (isDevice) {
+    if (!state.deviceApps.length) refreshDeviceApps(true);
+    return;
+  }
+  const frame = $("#app-center-host-frame");
+  const nextSrc = button.dataset.appCenterSrc;
+  if (frame.getAttribute("src") !== nextSrc) frame.src = nextSrc;
+  $("#app-center-host-title").textContent = button.dataset.appCenterView === "store" ? "APPSTORE" : "MY APPS";
+}));
+
+$("#app-center-host-reload").addEventListener("click", () => {
+  const frame = $("#app-center-host-frame");
+  if (frame.src) frame.src = frame.src;
+});
+
 $("#host-tool-reload").addEventListener("click", () => {
   const frame = $("#host-tool-frame");
   frame.src = frame.src;
