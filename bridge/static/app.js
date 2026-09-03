@@ -996,6 +996,18 @@ $$('[data-tab]').forEach(button => button.addEventListener("click", () => {
   if (button.dataset.tab === "health") refreshHealth(true);
 }));
 
+$$('[data-host-src]').forEach(button => button.addEventListener("click", () => {
+  $$('[data-host-src]').forEach(node => node.classList.toggle("active", node === button));
+  const frame = $("#host-tool-frame");
+  frame.src = button.dataset.hostSrc;
+  $("#host-tool-title").textContent = button.firstChild.textContent.trim().toUpperCase();
+}));
+
+$("#host-tool-reload").addEventListener("click", () => {
+  const frame = $("#host-tool-frame");
+  frame.src = frame.src;
+});
+
 $("#notify-form").addEventListener("submit", async event => {
   event.preventDefault();
   const button = $("#send-notify");

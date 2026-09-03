@@ -72,7 +72,7 @@
   function removeLegacyNavigation() {
     var list = document.querySelector("#leftsidebar .menu ul.list");
     if (!list) return;
-    var removedLabels = ["About", "Policies", "Support AWTRIX", "Links"];
+    var removedLabels = ["My Apps", "Appstore", "Extras", "Settings", "Status", "About", "Policies", "Support AWTRIX", "Links"];
     Array.prototype.slice.call(list.children).forEach(function (item) {
       if (!item || item.tagName !== "LI") return;
       var link = item.querySelector("a");
@@ -82,7 +82,16 @@
     });
   }
 
+  function installEmbeddedMode() {
+    if (new URLSearchParams(location.search).get("embedded") !== "1") return;
+    var style = document.createElement("style");
+    style.textContent = ".navbar,#leftsidebar,.overlay,.search-bar{display:none!important}section.content{margin:0!important;padding:14px!important;top:0!important}body{background:#ececea!important}.page-loader-wrapper{display:none!important}";
+    document.head.appendChild(style);
+    document.body.classList.add("awtrix-host-embedded");
+  }
+
   function boot() {
+    installEmbeddedMode();
     removeLegacyNavigation();
     installNavigation();
     if (location.pathname === "/pages/next.html") openNext(false);

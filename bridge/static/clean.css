@@ -107,7 +107,7 @@ button, input, select, textarea { border-radius: 9px; }
 .live-dot { background: var(--green); box-shadow: none; }
 
 .mode-tabs {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 4px;
   margin-top: 15px;
   padding: 5px;
@@ -500,6 +500,36 @@ footer { color: #969990; }
   .health-metrics { grid-template-columns: repeat(2, 1fr); }
   .health-bottom { grid-template-columns: 1fr 1fr; }
   .port-monitor { grid-column: 1 / -1; }
+}
+
+.host-tools-page { display: block; }
+.host-tools-page[hidden] { display: none; }
+.host-tools-panel { padding: 0; overflow: hidden; }
+.host-tools-head { display: flex; align-items: center; justify-content: space-between; padding: 25px 28px 20px; border-bottom: 1px solid var(--line); }
+.host-tools-head h2 { margin: 4px 0 5px; font-size: 1.25rem; }
+.host-tools-layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); min-height: 720px; }
+.host-tools-rail { padding: 14px 10px 20px; border-right: 1px solid var(--line); background: #f5f5f0; }
+.host-tools-rail p { margin: 15px 10px 6px; color: #a1a49a; font: 700 .55rem var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.host-tools-rail button { display: flex; flex-direction: column; gap: 3px; width: 100%; margin: 2px 0; padding: 9px 11px; border: 0; border-radius: 8px; color: #3d4139; background: transparent; text-align: left; font: 700 .7rem var(--mono); cursor: pointer; }
+.host-tools-rail button span { color: #999d92; font-size: .58rem; font-weight: 500; }
+.host-tools-rail button:hover { background: #e9eae4; }
+.host-tools-rail button.active { color: #fff; background: var(--ink); box-shadow: 0 5px 13px rgba(25,26,23,.15); }
+.host-tools-rail button.active span { color: #b8bcb2; }
+.host-tool-view { min-width: 0; background: #e9e9e9; }
+.host-tool-viewbar { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border-bottom: 1px solid #d7d8d1; background: #fff; font-family: var(--mono); }
+.host-tool-viewbar i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.host-tool-viewbar strong { color: var(--ink); font-size: .67rem; letter-spacing: .1em; }
+.host-tool-viewbar small { color: #96998f; }
+.host-tool-viewbar button { margin-left: auto; border: 1px solid var(--line); border-radius: 7px; background: #f6f6f2; padding: 5px 9px; cursor: pointer; }
+#host-tool-frame { display: block; width: 100%; height: 676px; border: 0; background: #eee; }
+
+@media (max-width: 760px) {
+  .host-tools-head { align-items: flex-start; gap: 12px; }
+  .host-tools-layout { grid-template-columns: 1fr; }
+  .host-tools-rail { display: flex; gap: 5px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .host-tools-rail p { display: none; }
+  .host-tools-rail button { min-width: 120px; }
+  #host-tool-frame { height: 720px; }
 }
 @media (max-width: 640px) { .gif-form-row { grid-template-columns: 1fr; } .gif-form-row .wide-field { grid-column: 1; } }
 

@@ -50,6 +50,7 @@
       <button type="button" data-tab="apps">应用中心 <span>APP CENTER</span></button>
       <button type="button" data-tab="gif">GIF 动画 <span>GIF</span></button>
       <button type="button" data-tab="health">系统健康 <span>HEALTH</span></button>
+      <button type="button" data-tab="host">Host 工具 <span>LEGACY+</span></button>
     </nav>
 
     <section id="tab-notify" class="tab-page active reveal r3">
@@ -232,6 +233,38 @@
           <div class="port-monitor"><div class="health-section-title"><span>PORT MONITOR</span><i></i></div><div class="port-grid"><div data-health-port="7000"><span>7000</span><strong>Host HTTP</strong><b>—</b></div><div data-health-port="7001"><span>7001</span><strong>Matrix MQTT</strong><b>—</b></div><div data-health-port="7100"><span>7100</span><strong>Next API</strong><b>—</b></div></div></div>
           <div class="recovery-card"><div class="health-section-title"><span>RECOVERY POLICY</span><i></i></div><strong id="health-recovery-policy">正在读取恢复策略</strong><p>发生内存溢出时主动退出，由 systemd 自动拉起，避免“进程存在但服务失联”。</p><div><span>HEAP LIMIT</span><b id="health-heap">—</b></div></div>
           <div class="diagnostic-card"><div class="health-section-title"><span>LAST DIAGNOSTIC</span><i></i></div><p id="health-last-error">暂无异常记录</p><small id="health-last-ok">HOST LAST OK —</small></div>
+        </div>
+      </article>
+    </section>
+
+    <section id="tab-host" class="tab-page host-tools-page reveal r3" hidden>
+      <article class="panel host-tools-panel">
+        <div class="host-tools-head">
+          <div><p class="section-index">11 / HOST TOOLKIT</p><h2>原版功能工作台</h2><p class="app-center-intro">在 AWTRIX Next 内直接管理应用、商店、扩展、设置与运行状态。</p></div>
+          <span class="panel-code">AWTRIX HOST / 2045</span>
+        </div>
+        <div class="host-tools-layout">
+          <nav class="host-tools-rail" aria-label="Host 功能">
+            <p>应用</p>
+            <button class="active" type="button" data-host-src="/pages/myApps.html?embedded=1">My Apps <span>已安装应用</span></button>
+            <button type="button" data-host-src="/pages/appstore.html?embedded=1">Appstore <span>应用商店</span></button>
+            <p>扩展</p>
+            <button type="button" data-host-src="/pages/arcade.html?embedded=1">Arcade <span>像素游戏</span></button>
+            <button type="button" data-host-src="/pages/icons.html?embedded=1">Icons <span>图标数据库</span></button>
+            <button type="button" data-host-src="/pages/animations.html?embedded=1">Animations <span>动画数据库</span></button>
+            <button type="button" data-host-src="/pages/newIcon.html?embedded=1">AWTRIXER <span>像素编辑器</span></button>
+            <p>设置</p>
+            <button type="button" data-host-src="/pages/hostsettings.html?embedded=1">Host Settings <span>主机配置</span></button>
+            <button type="button" data-host-src="/pages/premium.html?embedded=1">Premium <span>高级功能</span></button>
+            <p>状态</p>
+            <button type="button" data-host-src="/pages/host.html?embedded=1">Host Status <span>运行指标</span></button>
+            <button type="button" data-host-src="/pages/matrix.html?embedded=1">Matrix Status <span>实体屏连接</span></button>
+            <button type="button" data-host-src="/pages/log.html?embedded=1">Logs <span>运行日志</span></button>
+          </nav>
+          <div class="host-tool-view">
+            <div class="host-tool-viewbar"><i></i><strong id="host-tool-title">MY APPS</strong><small>原版功能 · Next 集成模式</small><button id="host-tool-reload" type="button">↻ 刷新</button></div>
+            <iframe id="host-tool-frame" title="AWTRIX Host 工具" src="/pages/myApps.html?embedded=1" loading="lazy"></iframe>
+          </div>
         </div>
       </article>
     </section>
