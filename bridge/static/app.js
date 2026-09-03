@@ -5,7 +5,7 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const state = {
   busy: 0, previewTimer: null, statsTimer: null, automationTimer: null, healthTimer: null,
   apps: {}, loopApps: [], automations: [], currentApp: "", lastScreen: null,
-  deviceApps: [], deviceAppFilter: "all", selectedDeviceApp: null,
+  deviceApps: [], deviceAppFilter: "all", selectedDeviceApp: null, storeApps: [],
   favoriteApps: loadStoredList("awtrix-next-favorites"),
 };
 
@@ -582,6 +582,40 @@ function renderDeviceApps() {
   orderState("自动保存");
 }
 
+function renderStoreApps() {
+  const grid = $("#store-grid");
+  grid.replaceChildren();
+  state.storeApps.forEach(app => {
+    const card = deviceAppCard({...app, enabled: app.installed, current: false, order: null});
+    card.classList.add("store-card");
+    card.tabIndex = -1;
+    card.querySelector(".device-app-actions")?.remove();
+    card.querySelector(".device-app-status").textContent = app.installed ? "● 已安装" : app.available ? "○ 可安装" : "— 安装包缺失";
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "store-install";
+    action.disabled = !app.available;
+    action.textContent = app.installed ? "重新安装" : "安装";
+    action.addEventListener("click", async event => {
+      event.stopPropagation();
+      action.disabled = true; action.textContent = "安装中…";
+      try {
+        await api("api/store/install", {method: "POST", json: {name: app.name}, timeout: 20000});
+        toast(`${app.label} 安装完成`);
+        await Promise.all([refreshStore(true), refreshDeviceApps(true)]);
+      } catch (error) { toast(`安装失败：${error.message}`, "error"); }
+    });
+    card.querySelector("footer").append(action);
+    grid.append(card);
+  });
+  if (!state.storeApps.length) grid.append(Object.assign(document.createElement("p"), {className: "empty-state", textContent: "仓库中还没有应用"}));
+}
+
+async function refreshStore(quiet = false) {
+  try { state.storeApps = await api("api/store", {timeout: 15000}) || []; renderStoreApps(); }
+  catch (error) { if (!quiet) toast(`读取仓库失败：${error.message}`, "error"); }
+}
+
 async function refreshDeviceApps(quiet = false) {
   const refresh = $("#refresh-device-apps");
   if (refresh) refresh.disabled = true;
@@ -1012,16 +1046,10 @@ $$('[data-app-center-view]').forEach(button => button.addEventListener("click", 
     if (!state.deviceApps.length) refreshDeviceApps(true);
     return;
   }
-  const frame = $("#app-center-host-frame");
-  const nextSrc = button.dataset.appCenterSrc;
-  if (frame.getAttribute("src") !== nextSrc) frame.src = nextSrc;
-  $("#app-center-host-title").textContent = "APPSTORE";
+  refreshStore(true);
 }));
 
-$("#app-center-host-reload").addEventListener("click", () => {
-  const frame = $("#app-center-host-frame");
-  if (frame.src) frame.src = frame.src;
-});
+$("#app-center-host-reload").addEventListener("click", () => refreshStore(false));
 
 $("#host-tool-reload").addEventListener("click", () => {
   const frame = $("#host-tool-frame");

@@ -47,6 +47,8 @@ HOST_URL = os.environ.get("AWTRIX_HOST_URL", "http://127.0.0.1:7000").rstrip("/"
 HOST_ROOT = Path(os.environ.get("AWTRIX_HOST_ROOT", "/opt/awtrix2"))
 GIF_DIR = DATA / "gifs"
 HOST_GIF_DIR = Path(os.environ.get("AWTRIX_HOST_GIF_DIR", HOST_ROOT / "gifs"))
+APP_REPOSITORY_DIR = DATA / "app-repository"
+APP_PACKAGE_DIR = APP_REPOSITORY_DIR / "packages"
 STARTED_AT = time.time()
 LOCK = threading.RLock()
 HOST_MUTATION_LOCK = threading.Lock()
@@ -1100,6 +1102,45 @@ def installed_apps() -> list[str]:
     return ordered + sorted(names.difference(ordered), key=str.casefold)
 
 
+def snapshot_app_repository() -> None:
+    """Keep a private persistent copy of locally installed app packages."""
+    APP_PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
+    for source in (HOST_ROOT / "Apps").glob("*"):
+        if source.suffix.lower() not in {".jar", ".ax"} or not re.fullmatch(r"[A-Za-z0-9_]+", source.stem):
+            continue
+        target = APP_PACKAGE_DIR / source.name
+        try:
+            if not target.exists() or source.stat().st_mtime > target.stat().st_mtime:
+                shutil.copy2(source, target)
+        except OSError:
+            continue
+
+
+def store_catalog() -> list[dict]:
+    snapshot_app_repository()
+    installed = set(installed_apps())
+    return [
+        {"name": name, **info, "installed": name in installed, "available": (APP_PACKAGE_DIR / f"{name}.jar").is_file()}
+        for name, info in APP_CATALOG.items()
+    ]
+
+
+def install_store_app(name: str) -> dict:
+    if not re.fullmatch(r"[A-Za-z0-9_]+", name or "") or name not in APP_CATALOG:
+        raise ValueError("仓库中不存在该应用")
+    snapshot_app_repository()
+    package = APP_PACKAGE_DIR / f"{name}.jar"
+    if not package.is_file():
+        raise ValueError("仓库中缺少应用安装包")
+    apps_dir = HOST_ROOT / "Apps"
+    shutil.copy2(package, apps_dir / package.name)
+    config = APP_PACKAGE_DIR / f"{name}.ax"
+    if config.is_file() and not (apps_dir / config.name).exists():
+        shutil.copy2(config, apps_dir / config.name)
+    host_request("/api/v3/special/reload", {})
+    return next(item for item in store_catalog() if item["name"] == name)
+
+
 def app_settings_path(name: str) -> Path:
     if not re.fullmatch(r"[A-Za-z0-9_]+", name or "") or name not in installed_apps():
         raise ValueError("App 不存在")
@@ -1318,6 +1359,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/apps":
             self.send_json(app_catalog())
             return
+        if path == "/api/store":
+            self.send_json(store_catalog())
+            return
         if path == "/api/apps/settings":
             name = parse_qs(parsed.query).get("name", [""])[0].strip()
             try:
@@ -1471,6 +1515,11 @@ class Handler(BaseHTTPRequestHandler):
                 loop = payload.get("loop")
                 result = play_gif(name, loop=loop)
                 self.send_json({"success": True, **result})
+                return
+            if path == "/api/store/install":
+                if not isinstance(payload, dict):
+                    raise ValueError("安装请求必须是 JSON 对象")
+                self.send_json({"success": True, "app": install_store_app(str(payload.get("name", "")).strip())})
                 return
             if path == "/api/gif/play-all":
                 result = play_all_gifs()

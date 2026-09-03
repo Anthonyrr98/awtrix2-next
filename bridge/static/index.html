@@ -173,7 +173,7 @@
       <article class="panel app-center-panel">
         <div class="app-center-switcher" aria-label="应用中心视图">
           <button class="active" type="button" data-app-center-view="device">已安装应用 <span>管理、排序与设置</span></button>
-          <button type="button" data-app-center-view="store" data-app-center-src="/pages/appstore.html?embedded=1">应用商店 <span>发现与安装应用</span></button>
+          <button type="button" data-app-center-view="store">应用商店 <span>发现与安装应用</span></button>
         </div>
         <div id="app-center-device-view">
         <div class="app-center-head">
@@ -192,9 +192,9 @@
         <div class="app-order-guide"><span aria-hidden="true">↕</span><p><strong>LED 显示顺序</strong><small>抓住卡片右上角手柄拖动，松手后自动保存；未启用应用固定在末尾。</small></p><b id="app-order-save-state">自动保存</b></div>
         <div id="device-app-grid" class="device-app-grid" aria-live="polite"><p class="empty-state">正在读取已安装应用…</p></div>
         </div>
-        <div id="app-center-host-view" class="app-center-host-view" hidden>
-          <div class="host-tool-viewbar"><i></i><strong id="app-center-host-title">APPSTORE</strong><small>应用中心 · 商店模式</small><button id="app-center-host-reload" type="button">↻ 刷新</button></div>
-          <iframe id="app-center-host-frame" title="AWTRIX 应用中心" loading="lazy"></iframe>
+        <div id="app-center-host-view" class="app-center-host-view native-store" hidden>
+          <div class="store-toolbar"><div><p class="section-index">09 / NEXT APP REPOSITORY</p><h2>AWTRIX Next 应用仓库</h2><small>本机私有仓库 · 不依赖旧版 AWTRIX Cloud</small></div><button id="app-center-host-reload" class="app-refresh" type="button"><span>↻</span> 刷新仓库</button></div>
+          <div id="store-grid" class="device-app-grid store-grid"><p class="empty-state">正在读取应用仓库…</p></div>
         </div>
       </article>
     </section>

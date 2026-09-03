@@ -280,6 +280,15 @@ input[type=range]::-webkit-slider-thumb { border-color: var(--ink); background: 
 .app-center-host-view { margin: 0 -28px -28px; border-top: 1px solid var(--line); background: #e9e9e9; }
 .app-center-host-view[hidden] { display: none; }
 #app-center-host-frame { display: block; width: 100%; height: 720px; border: 0; background: #eee; }
+.native-store { padding: 26px 28px 32px; background: #f7f7f3; }
+.store-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.store-toolbar h2 { margin: 4px 0; font-size: 1.25rem; }
+.store-toolbar small { color: var(--muted); }
+.store-grid { margin-top: 22px; }
+.store-card { cursor: default; }
+.store-install { margin-left: auto; padding: 6px 11px; border: 1px solid #d7d9d1; border-radius: 7px; color: var(--paper); background: #fff; font: 700 .58rem var(--mono); cursor: pointer; }
+.store-install:hover { border-color: #deb77f; background: #fff8ed; }
+.store-install:disabled { cursor: not-allowed; opacity: .45; }
 .app-center-intro { color: var(--muted); }
 .app-center-stats { border-color: var(--line); border-radius: 11px; background: #fafaf8; }
 .app-center-stats strong { color: var(--paper); }
