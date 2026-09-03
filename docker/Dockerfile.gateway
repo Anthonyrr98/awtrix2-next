@@ -1,5 +1,5 @@
 FROM nginx:1.27-alpine
 
 COPY docker/unified-gateway.conf /etc/nginx/conf.d/default.conf
+COPY docker/awtrix-next-integration.js /usr/share/nginx/html/awtrix-next-integration.js
 EXPOSE 7000
-
