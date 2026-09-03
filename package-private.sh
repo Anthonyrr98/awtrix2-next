@@ -27,7 +27,10 @@ tar -C runtime \
     -cf - . | tar -C .bundle-runtime -xf -
 
 docker build -f docker/Dockerfile.host-bundled -t awtrix2-next-host:bundle .
-docker build -f docker/Dockerfile.bridge -t awtrix2-next-bridge:bundle .
+docker build \
+    --build-arg "PIP_INDEX_URL=${PIP_INDEX_URL:-https://pypi.org/simple}" \
+    -f docker/Dockerfile.bridge \
+    -t awtrix2-next-bridge:bundle .
 docker build -f docker/Dockerfile.gateway -t awtrix2-next-gateway:bundle .
 docker save -o dist-private/awtrix2-next-images.tar \
     awtrix2-next-host:bundle \
@@ -40,4 +43,3 @@ tar -czf awtrix2-next-private-bundle.tar.gz -C dist-private .
 
 echo "Created: awtrix2-next-private-bundle.tar.gz"
 echo "Keep it private: it contains your AWTRIX2 Host binary."
-
